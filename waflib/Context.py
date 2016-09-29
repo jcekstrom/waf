@@ -667,7 +667,7 @@ def load_module(path, encoding=None):
 	cache_modules[path] = module
 	return module
 
-tool_base_modules = ['waflib.Tools', 'waflib.extras', 'waflib', '']
+tool_base_modules = ['waflib.Tools', 'waflib.extras', 'waflib']
 def add_tool_module(module_name):
 	tool_base_modules.insert(0, module_name)
 
@@ -704,8 +704,10 @@ def load_tool(tool, tooldir=None, ctx=None, with_sys_path=True):
 			return ret
 		else:
 			if not with_sys_path: sys.path.insert(0, waf_dir)
+			base_modules = [module + ".%s" for module in tool_base_modules]
+			base_modules.append("%s") # Add in top level
 			try:
-				for x in [module + ".%s" if module else "" for module in tool_base_modules]:
+				for x in base_modules:
 					try:
 						__import__(x % tool)
 						break
