@@ -346,12 +346,13 @@ def create_waf(self, *k, **kw):
 	def find_unused(kd, ch):
 		for i in range(35, 125):
 			for j in range(35, 125):
-				if i==j: continue
-				if i == 39 or j == 39: continue
-				if i == 92 or j == 92: continue
-				s = chr(i) + chr(j)
-				if -1 == kd.find(s.encode()):
-					return (kd.replace(ch.encode(), s.encode()), s)
+				for k in range(35, 125):
+					if i == j and j == k: continue
+					if i == 39 or j == 39 or k == 39: continue
+					if i == 92 or j == 92 or k == 92: continue
+					s = chr(i) + chr(j) + chr(k)
+					if -1 == kd.find(s.encode()):
+						return (kd.replace(ch.encode(), s.encode()), s)
 		raise ValueError('Could not find a proper encoding')
 
 	# The reverse order prevents collisions
