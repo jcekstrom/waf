@@ -1167,7 +1167,7 @@ def compile_fun(line, shell=False):
 				if ret:
 					return ret
 			return None
-		return composed_fun, dvars
+		return composed_fun, dvars_lst
 	if shell:
 		return compile_fun_shell(line)
 	else:
